@@ -35,9 +35,7 @@ void PointcloudFilter::filter_callback(const sensor_msgs::msg::PointCloud2::Shar
   pcl_conversions::copyPCLPointCloud2MetaData(*filtered_cloud, *msg);
   
   filtered_pc_publisher->publish(*msg);
-;
 }
-
 
 }
 
