@@ -21,7 +21,7 @@ PointcloudFilter::PointcloudFilter(rclcpp::NodeOptions options)
 void PointcloudFilter::filter_callback(const sensor_msgs::msg::PointCloud2::SharedPtr msg)
 {
   // convert PointCloud2 to PCL::PointCloud
-	pcl_conversions::copyPointCloud2MetaData(*msg, *cloud); 
+  pcl_conversions::copyPointCloud2MetaData(*msg, *cloud); 
 	
   // Create the filtering object
   pcl::PassThrough<pcl::PCLPointCloud2> pass;
@@ -36,7 +36,6 @@ void PointcloudFilter::filter_callback(const sensor_msgs::msg::PointCloud2::Shar
   
   filtered_pc_publisher->publish(*msg);
 }
-
 }
 
 int main(int argc, char * argv[])
