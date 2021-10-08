@@ -1,4 +1,8 @@
 repositories:
+  mammoth_filter:
+    type: git
+    url: https://github.com/girvenavery2022/Mammoth_filter.git
+    version: master
   perception_pcl:
     type: git
     url: https://github.com/ros-perception/perception_pcl.git
