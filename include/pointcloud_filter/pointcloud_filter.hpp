@@ -28,6 +28,7 @@ private:
 
   pcl::PCLPointCloud2::Ptr cloud;
   pcl::PCLPointCloud2::Ptr filtered_cloud;
+  // fix?
   pcl::PCLPointCloud2* cloud2 = new pcl::PCLPointCloud2; 
   
 };
