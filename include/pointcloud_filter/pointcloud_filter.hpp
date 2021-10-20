@@ -28,6 +28,8 @@ private:
 
   pcl::PCLPointCloud2::Ptr cloud;
   pcl::PCLPointCloud2::Ptr filtered_cloud;
+  pcl::PCLPointCloud2* cloud2 = new pcl::PCLPointCloud2; 
+  
 };
 }  // namespace PointcloudFilter
 
