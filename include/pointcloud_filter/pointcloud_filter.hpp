@@ -5,11 +5,14 @@
 
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/header.hpp"
-#include "sensor_msgs/msg/point_cloud2.hpp"
+#include "sensor_msgs/msg/point_cloud2.h"
 #include <pcl/point_types.h>
 #include <pcl/filters/passthrough.h>
+#include <pcl/filters/voxel_grid.h>
 #include "pcl_conversions/pcl_conversions.h"
-
+#include <pcl/io/pcd_io.h>
+#include <boost/shared_ptr.hpp>
+#include <boost/make_shared.hpp>
 
 namespace PointcloudFilter
 {
@@ -25,9 +28,6 @@ private:
   rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr filtered_pc_publisher;
   rclcpp::Subscription<sensor_msgs::msg::PointCloud2>::SharedPtr unfiltered_pc_subscription;
   
-
-  pcl::PCLPointCloud2::Ptr cloud;
-  pcl::PCLPointCloud2::Ptr filtered_cloud;
 };
 }  // namespace PointcloudFilter
 

@@ -10,31 +10,38 @@ namespace PointcloudFilter
 PointcloudFilter::PointcloudFilter(rclcpp::NodeOptions options)
 : Node("pointcloud_filter", options)
 {
-	filtered_pc_publisher =this->create_publisher<sensor_msgs::msg::PointCloud2>( 
+  filtered_pc_publisher =this->create_publisher<sensor_msgs::msg::PointCloud2>( 
     "/mammoth/filtered_points", rclcpp::SensorDataQoS());
 
   unfiltered_pc_subscription = this->create_subscription<sensor_msgs::msg::PointCloud2>(
-    "/mammoth/unfiltered_points", 10,
+    "/mammoth/unfiltered_points", rclcpp::SensorDataQoS(),
     std::bind(&PointcloudFilter::filter_callback, this, std::placeholders::_1));
 }
 
 void PointcloudFilter::filter_callback(const sensor_msgs::msg::PointCloud2::SharedPtr msg)
 {
-  // convert PointCloud2 to PCL::PointCloud
-  pcl_conversions::copyPointCloud2MetaData(*msg, *cloud); 
-	
-  // Create the filtering object
+   // Container for original & filtered data
+  pcl::PCLPointCloud2* cloud = new pcl::PCLPointCloud2; 
+  pcl::PCLPointCloud2ConstPtr cloudPtr(cloud);
+  pcl::PCLPointCloud2 cloud_filtered;
+  
+  // Convert to PCL data type
+  pcl_conversions::toPCL(*msg, *cloud);
+
+  // Perform the actual filtering
   pcl::PassThrough<pcl::PCLPointCloud2> pass;
-  pass.setInputCloud (cloud);
+  pass.setInputCloud (cloudPtr);
   pass.setFilterFieldName ("z");
   pass.setFilterLimits (0.0, 1.0);
-  pass.FilterIndices::setNegative(true);
-  pass.filter (*filtered_cloud);
+  //pass.setFilterLimitsNegative (true);
+  pass.filter (cloud_filtered);
   
-  // convert PCL::PointCloud to PointCloud2
-  pcl_conversions::copyPCLPointCloud2MetaData(*filtered_cloud, *msg);
+  // Convert to ROS data type
+  sensor_msgs::msg::PointCloud2 output;
+  pcl_conversions::fromPCL(cloud_filtered, output);
   
-  filtered_pc_publisher->publish(*msg);
+  // publish filtered pointcloud2 message 
+  filtered_pc_publisher->publish(output);
 }
 }
 
