@@ -12,5 +12,4 @@ but can be changed to another filtering algorithm provided by PCL.
 This package uses the PCL libray to do filtering work but unfortunately, PCL is only supported in ROS1. To get around that, 
 I included the perception_pcl package that ports over PCL from ROS1 to ROS2 foxy. 
 
-# Problems
-Luckily, the package builds succesfully. but when launching the node from either the command line or from a launch file it crashes. The PCL class doesn't like the pointers defined in the hpp file, more specifically line 29,30. fixing that should fix the problem and we can go on to the testing phase.
+
